@@ -1,5 +1,4 @@
 const Koa = require('koa');
-// const app = new Koa();
 
 const db = require('monk')('localhost:27017/test');
 let testdb = db.get('test');

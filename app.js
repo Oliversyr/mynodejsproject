@@ -12,4 +12,3 @@ app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(8085);
 
-// console.log('服务器启动成功！')

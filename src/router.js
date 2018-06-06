@@ -6,7 +6,7 @@ let loginFn = require('./login');
 const Router = require('koa-router');
 
 let router = new Router();
-// console.log(13246)
+
 let login = new Router();
 login.get('/login', async (ctx) => {
     // console.log(ctx.request)
