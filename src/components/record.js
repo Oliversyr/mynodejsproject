@@ -23,7 +23,7 @@ let record = {
                 "notes": params.notes,
             }
 
-            insertDoc.billId = insertDoc.recordTime.split(' ')[0].split('-').join('') + myDate.getTime();
+            insertDoc.billId = insertDoc.recordTime.split('T')[0].split('-').join('') + myDate.getTime();
 
             t_bill.insert(insertDoc).then((res) => {
                 let res_obj = {
