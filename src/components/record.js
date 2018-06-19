@@ -4,7 +4,8 @@ const db = require('monk')(appUtils.mongodbUrl + '/yang');
 let myDate = new Date();
 let thisYear = myDate.getFullYear();
 const t_bill = db.get('t_bill_' + thisYear);
-const t_account = db.get('t_account');
+// const t_account = db.get('t_account');
+let account = require('./account');
 
 let record = {
     saveRecord: (ctx) => {
@@ -31,6 +32,8 @@ let record = {
                     retMsg: "保存成功",
                     result: res
                 }
+
+                account.updateAccount(insertDoc);
                 resolve(res_obj);
             }).catch((err) => {
                 reject(err);
