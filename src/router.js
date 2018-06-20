@@ -5,6 +5,7 @@ let accountFn = require('./components/account');
 let inputFn = require('./components/input');
 let outputFn = require('./components/output');
 let recordFn = require('./components/record');
+let listFn = require('./components/list');
 
 let router = new Router();
 
@@ -13,6 +14,7 @@ let account = new Router();
 let input = new Router();
 let output = new Router();
 let record = new Router();
+let list = new Router();
 
 login.get('/login', async (ctx) => {
     // console.log(ctx.request)
@@ -35,10 +37,15 @@ record.post('/saveRecord', async (ctx) => {
     ctx.body = await recordFn.saveRecord(ctx);
 })
 
+record.post('/getList', async (ctx) => {
+    ctx.body = await listFn.geiList(ctx);
+})
+
 router.use('', login.routes(), login.allowedMethods());
 router.use('/account', account.routes(), account.allowedMethods());
 router.use('/input', input.routes(), input.allowedMethods());
 router.use('/output', output.routes(), output.allowedMethods());
 router.use('/record', record.routes(), record.allowedMethods());
+router.use('/list', list.routes(), list.allowedMethods());
 
 module.exports = router;

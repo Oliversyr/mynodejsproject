@@ -22,10 +22,17 @@ let account = {
         let accountTypeId = Math.floor(data.accountId / 1000) * 1000;
         return new Promise((resolve, reject) => {
             t_account.find({accountTypeId: accountTypeId}).then((res) => {
-                let newData = res;
-                newData.accountBalance = parseFloat(newData.accountBalance) + parseFloat(data.money);
-                newData.accountList.forEach((item, i) => {
-                    if(item.accountId === data.accountId) {
+                
+                let newData = res[0];
+
+                if(data.recordType === 'out') {
+                    data.money = '-' + data.money;
+                }
+                
+                newData.accountBalance = (parseFloat(newData.accountBalance) + parseFloat(data.money)).toFixed(2);
+                console.log('>>>>>>>>', newData, data);
+                newData['accountList'].forEach((item, i) => {
+                    if(item.accountId == data.accountId) {
                         item.accountBalance = (parseFloat(item.accountBalance) + parseFloat(data.money)).toFixed(2);
                     }
                 })

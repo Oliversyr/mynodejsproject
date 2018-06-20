@@ -18,7 +18,7 @@ let record = {
                 "recordType": params.recordType,
                 "recordCateId": params.recordCateId,
                 "recordCateName": params.recordCateName,
-                "accountId": params.recordCateName,
+                "accountId": params.accountId,
                 "accountName": params.accountName,
                 "recordTime": params.recordTime,
                 "notes": params.notes,
