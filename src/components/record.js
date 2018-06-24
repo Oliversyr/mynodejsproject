@@ -1,24 +1,39 @@
 let appUtils = require('../common/appUtils');
 
 const db = require('monk')(appUtils.mongodbUrl + '/yang');
-const t_output = db.get('t_bill');
+let myDate = new Date();
+let thisYear = myDate.getFullYear();
+const t_bill = db.get('t_bill_' + thisYear);
+// const t_account = db.get('t_account');
+let account = require('./account');
 
-let output = {
-    getOutCateList: (ctx) => {
+let record = {
+    saveRecord: (ctx) => {
         return new Promise((resolve, reject) => {
             let serObj = {};
-            console.log('ctx.request.body==', ctx.request.body)
-            if(ctx.request.body.cateNum == 1) {
-                serObj = {outputTypeId: 1000};
-            } else if(ctx.request.body.cateNum && ctx.request.body.cateNum != 0) {
-                serObj = {outputTypeId: ctx.request.body.cateNum};
+            console.log('ctx.request.body==', ctx.request.body);
+            let params = ctx.request.body;
+            let insertDoc = {
+                "money": params.money,
+                "recordType": params.recordType,
+                "recordCateId": params.recordCateId,
+                "recordCateName": params.recordCateName,
+                "accountId": params.accountId,
+                "accountName": params.accountName,
+                "recordTime": params.recordTime,
+                "notes": params.notes,
             }
-            t_output.find(serObj).then((res) => {
+
+            insertDoc.billId = insertDoc.recordTime.split('T')[0].split('-').join('') + myDate.getTime();
+
+            t_bill.insert(insertDoc).then((res) => {
                 let res_obj = {
                     retCode: "SUCCESS",
-                    retMsg: "获取成功",
+                    retMsg: "保存成功",
                     result: res
                 }
+
+                account.updateAccount(insertDoc);
                 resolve(res_obj);
             }).catch((err) => {
                 reject(err);
@@ -27,4 +42,4 @@ let output = {
     }
 }
 
-module.exports = output;
+module.exports = record;
