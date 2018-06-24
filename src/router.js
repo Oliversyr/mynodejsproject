@@ -37,8 +37,8 @@ record.post('/saveRecord', async (ctx) => {
     ctx.body = await recordFn.saveRecord(ctx);
 })
 
-record.post('/getList', async (ctx) => {
-    ctx.body = await listFn.geiList(ctx);
+list.post('/getList', async (ctx) => {
+    ctx.body = await listFn.getList(ctx);
 })
 
 router.use('', login.routes(), login.allowedMethods());

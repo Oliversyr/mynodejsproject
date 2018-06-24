@@ -6,6 +6,7 @@ let thisYear = myDate.getFullYear();
 const t_bill = db.get('t_bill_' + thisYear);
 // const t_account = db.get('t_account');
 let account = require('./account');
+let list = require('./list');
 
 let record = {
     saveRecord: (ctx) => {
@@ -33,7 +34,14 @@ let record = {
                     result: res
                 }
 
+                /**
+                 * 更新账户信息
+                 */
                 account.updateAccount(insertDoc);
+                /**
+                 * 更新月记录列表
+                 */
+                list.updateMonth(insertDoc);
                 resolve(res_obj);
             }).catch((err) => {
                 reject(err);
