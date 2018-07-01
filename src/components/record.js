@@ -3,7 +3,7 @@ let appUtils = require('../common/appUtils');
 const db = require('monk')(appUtils.mongodbUrl + '/yang');
 let myDate = new Date();
 let thisYear = myDate.getFullYear();
-const t_bill = db.get('t_bill_' + thisYear);
+const t_bill_year = db.get('t_bill_' + thisYear);
 // const t_account = db.get('t_account');
 let account = require('./account');
 let list = require('./list');
@@ -27,7 +27,7 @@ let record = {
 
             insertDoc.billId = insertDoc.recordTime.split('T')[0].split('-').join('') + myDate.getTime();
 
-            t_bill.insert(insertDoc).then((res) => {
+            t_bill_year.insert(insertDoc).then((res) => {
                 let res_obj = {
                     retCode: "SUCCESS",
                     retMsg: "保存成功",

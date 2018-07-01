@@ -91,14 +91,25 @@ let list = {
         let month = data.billId.substr(0, 6);
         let obj = {};
         t_bill.find({month: month}).then((res) => {
-            if(data.recordType === 'in') {
-                obj.monthIn = (parseFloat(res[0].monthIn) + parseFloat(data.money)).toFixed(2); 
-            } else if(data.recordType === 'out') {
-                obj.monthOut = (parseFloat(res[0].monthOut) + parseFloat(data.money)).toFixed(2); 
+            if(res.length > 0) {
+                if(data.recordType === 'in') {
+                    obj.monthIn = (parseFloat(res[0].monthIn) + parseFloat(data.money)).toFixed(2); 
+                } else if(data.recordType === 'out') {
+                    obj.monthOut = (parseFloat(res[0].monthOut) + parseFloat(data.money)).toFixed(2); 
+                }
+                console.log("<><><><><><>",obj, res, data.money);
+    
+                t_bill.update({month: month}, {$set: obj});
+            } else {
+                if(data.recordType === 'in') {
+                    obj.monthIn = (parseFloat(res[0].monthIn) + parseFloat(data.money)).toFixed(2); 
+                } else if(data.recordType === 'out') {
+                    obj.monthOut = (parseFloat(res[0].monthOut) + parseFloat(data.money)).toFixed(2); 
+                }
+                obj.month = month;
+                t_bill.insert(obj);
             }
-            console.log("<><><><><><>",obj, res, data.money);
-
-            t_bill.update({month: month}, {$set: obj});
+            
         })
         
     }
